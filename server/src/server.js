@@ -5,6 +5,7 @@ const Query = require("./resolvers/Query");
 const typeDefs = require("./schema");
 const connectMongoDB = require("./config/database");
 const Mutation = require("./resolvers/Mutation");
+const Category = require("./resolvers/Category");
 
 require("dotenv").config();
 const app = express();
@@ -23,12 +24,13 @@ app.use(middleware);
 
 //database connect
 connectMongoDB();
-Query
+
 const server = new ApolloServer({
   typeDefs,
   resolvers: {
     Query,
-  Mutation
+    Category,
+    Mutation,
   },
 });
 
@@ -36,4 +38,3 @@ const server = new ApolloServer({
 server.listen().then(({ url }) => {
   console.log(`🚀  Server ready at ${url}`);
 });
-
