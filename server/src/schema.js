@@ -12,6 +12,7 @@ const typeDefs = gql`
     login(email: String, password: String): Tokens
     addProduct(input: addProductInput): Product
     addCategory(input: addCategoryInput): Category
+    addReview(input: AddReviewInput): Review
   }
 
   type User {
@@ -23,6 +24,14 @@ const typeDefs = gql`
     role: String!
   }
 
+  input UserInput {
+    username: String!
+    image: String
+    email: String!
+    password: String!
+    role: String
+  }
+
   type Tokens {
     userId: ID!
     token: String!
@@ -30,47 +39,19 @@ const typeDefs = gql`
   }
 
   type Product {
-    _id:String!
+    _id: String!
     name: String!
     title: String!
     image: String!
-    rating: String!
     price: String!
+    rating: String!
     quantity: Int!
     description: String!
     slug: String!
     stock: String!
     onSale: Boolean
     category: String!
-  }
-
-  type Review {
-    _id: ID!
-    date: String!
-    title: String!
-    comment: String!
-    rating: Int!
-  }
-
-  type Category {
-    _id: ID!
-    image: String!
-    category: String!
-    slug: String
-    products: [Product!]!
-  }
-  input addCategoryInput {
-    image: String!
-    category: String!
-    slug: String
-  }
-
-  input UserInput {
-    username: String!
-    image: String
-    email: String!
-    password: String!
-    role: String
+    review: [Review!]
   }
 
   input addProductInput {
@@ -87,12 +68,33 @@ const typeDefs = gql`
     category: String!
   }
 
-  input AddReviewInput {
+  type Category {
+    _id: ID!
+    image: String!
+    category: String!
+    slug: String
+    products: [Product!]!
+  }
+  input addCategoryInput {
+    image: String!
+    category: String!
+    slug: String
+  }
+
+  type Review {
+    _id: ID!
+    user: String
     date: String!
     title: String!
     comment: String!
     rating: Int!
-    productId: ID!
+  }
+
+  input AddReviewInput {
+    title: String!
+    comment: String!
+    rating: Int!
+    productId: ID
   }
 `;
 

@@ -6,6 +6,7 @@ const typeDefs = require("./schema");
 const connectMongoDB = require("./config/database");
 const Mutation = require("./resolvers/Mutation");
 const Category = require("./resolvers/Category");
+const jwt = require("jsonwebtoken");
 
 require("dotenv").config();
 const app = express();
@@ -25,6 +26,14 @@ app.use(middleware);
 //database connect
 connectMongoDB();
 
+const context = ({ req }) => {
+  const { authorization } = req.headers;
+  if (authorization) {
+    const user = jwt.verify(authorization, process.env.JWT_SECRET);
+    return user;
+  }
+};
+
 const server = new ApolloServer({
   typeDefs,
   resolvers: {
@@ -32,6 +41,7 @@ const server = new ApolloServer({
     Category,
     Mutation,
   },
+  context,
 });
 
 // The `listen` method launches a web server.

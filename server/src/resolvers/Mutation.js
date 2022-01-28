@@ -48,16 +48,12 @@ mutation = {
     if (!isEqual) {
       throw new Error("Password is incorrect!");
     }
-    const token = jwt.sign(
-      { userId: user.id, email: user.email },
-      "somesupersecretkey",
-      {
-        expiresIn: "1h",
-      }
-    );
+    const token = jwt.sign({ user }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
     return { userId: user.id, token: token, tokenExpiration: 1 };
   },
-  addProduct: async (_, { input }) => {
+  addProduct: async (_, { input }, { userId }, context) => {
     const {
       name,
       title,
@@ -73,6 +69,7 @@ mutation = {
     } = input;
 
     try {
+      if (!context.user || !context.user.role.includes("admin")) return null;
       const newProduct = Product({
         name,
         title,
@@ -91,14 +88,27 @@ mutation = {
       throw error;
     }
   },
-  addCategory: async (_, { input }) => {
+  addCategory: async (_, { input }, context) => {
     const { image, slug, category } = input;
     try {
+      if (!context.user || !context.user.role.includes("admin")) return null;
       const newCategory = await new Category({ image, slug, category });
       return await newCategory.save();
     } catch (error) {
       throw error;
     }
+  },
+  addReview: async (_, { input },context) => {
+    if (!context.user) return null;
+    const product = await Product.findOne({ _id: input.productId });
+    const review = {
+      title: input.title,
+      comment: input.comment,
+      rating: input.rating,
+    };
+    product.review.push(review);
+    const saveProduct = await Product.save();
+    return saveProduct;
   },
 };
 
