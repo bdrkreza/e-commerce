@@ -2,7 +2,6 @@ import React from "react";
 import SwiperCore, { Autoplay, Navigation, Pagination } from "swiper/core";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.min.css";
-import { BACKEND_URL } from "../../helpers/helpers";
 /**
  * @author
  * @function ProductImg
@@ -24,10 +23,10 @@ export const ProductImg = ({ image }) => {
         navigation={true}
         className="swiper-slide"
       >
-        {image.map((img) => {
+        {[].map((img) => {
           return (
-            <SwiperSlide key={img.attributes.url}>
-              <img src={`${BACKEND_URL + img.attributes.url}`} alt="" />
+            <SwiperSlide key={img}>
+              <img src={image} alt="" />
             </SwiperSlide>
           );
         })}

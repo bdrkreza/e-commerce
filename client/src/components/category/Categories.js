@@ -10,7 +10,6 @@ import "./category.css";
 
 export const Categories = (props) => {
   const { loading, error, data } = useQuery(GET_ALL_CATEGORY);
-  const category = data?.categories.data;
   if (loading) {
     return <h3 className=" card-panel cyan-text">category are loading...</h3>;
   }
@@ -18,12 +17,23 @@ export const Categories = (props) => {
     return <h3 className=" card-panel red-text">{error.message}</h3>;
   }
   return (
-    <div className=" container category_contain">
-      {category.map(({ id, attributes }) => {
+    <div className="container category_contain">
+      {data?.categories.map((category) => {
         return (
-          <div className="container ">
-            <NavLink to={`/category/${id}`} className="btn black-text">
-              {attributes.name}
+          <div className="container abs">
+            <NavLink
+              to={`/category/${category._id}`}
+            >
+              <div class="card">
+                <div class="card-image waves-effect waves-block waves-light">
+                  <img class="activator" src={category.image} />
+                </div>
+                <div class="card-content">
+                  <span class="card-title activator grey-text text-darken-4">
+                  {category.category}<i class="material-icons right">more_vert</i>
+                  </span>
+                </div>
+              </div>
             </NavLink>
           </div>
         );

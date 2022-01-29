@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 import { useCart } from "react-use-cart";
 import "./cart.css";
 import { CartItem } from "./CartItem";
 import Checkout from "./Checkout";
-
 /**
  * @author
  * @function AddToCart
@@ -12,7 +12,7 @@ import Checkout from "./Checkout";
 export const SoppingCart = (props) => {
   const [checkout, setCheckout] = useState(false);
   const jwt = localStorage.getItem("jwt");
-  const { isEmpty, items, cartTotal, removeItem } = useCart();
+  const { isEmpty, items, cartTotal, removeItem ,updateItemQuantity } = useCart();
 
   if (isEmpty) {
     return (
@@ -41,11 +41,11 @@ export const SoppingCart = (props) => {
         <div className="col s12 m12 l7">
           <div className="card blue-grey darken-0">
             {items?.map((item) => (
-              <CartItem item={item} removeItem={removeItem} />
+              <CartItem item={item} removeItem={removeItem} updateItemQuantity={updateItemQuantity} />
             ))}
 
             <div className="card-action">
-              <a href="#">Continue shopping</a>
+              <NavLink to="/">Continue shopping</NavLink>
             </div>
           </div>
         </div>

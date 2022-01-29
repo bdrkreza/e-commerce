@@ -7,19 +7,13 @@ import { ProductCard } from "./ProductCart";
  **/
 
 export const Product = ({ data }) => {
-
   return (
     <div>
-      <div className="card_container">
-        {data.map(({ id, attributes }) => (
-          <ProductCard
-            data={attributes}
-            Id={id}
-            image={attributes.image.data[0].attributes.url}
-          />
+      <div className="container card_container">
+        {data.map((data) => (
+          <ProductCard data={data} />
         ))}
       </div>
-      
     </div>
   );
 };

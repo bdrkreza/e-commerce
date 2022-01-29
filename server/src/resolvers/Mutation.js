@@ -10,25 +10,23 @@ mutation = {
    * @route POST /api/auth/register
    * @access Public
    */
-  createUser: async (_, { newUser }) => {
+  createUser: async (_, { input }) => {
     try {
-      const existingUser = await User.findOne({ email: newUser.email });
+      const existingUser = await User.findOne({ email: input.email });
       if (existingUser) {
         throw new Error("User exists already.");
       }
-      const hashedPassword = await bcrypt.hash(newUser.password, 12);
+      const hashedPassword = await bcrypt.hash(input.password, 12);
 
       const user = new User({
-        username: newUser.username,
-        email: newUser.email,
-        image: newUser.image,
-        role: newUser.role,
+        username: input.username,
+        email: input.email,
+        image: input.image,
+        role: input.role,
         password: hashedPassword,
       });
 
       const result = await user.save();
-      console.log(result._doc);
-
       return { ...result._doc, password: null, _id: result.id };
     } catch (err) {
       throw err;

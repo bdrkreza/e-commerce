@@ -13,7 +13,6 @@ export const Register = (props) => {
   let navigate = useNavigate();
   const [formData, setFormData] = useState({});
   const [registerUser, { loading, error, data }] = useMutation(REGISTER_USER);
-
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -29,14 +28,24 @@ export const Register = (props) => {
       },
     });
   };
+
   if (data) {
-    localStorage.setItem("jwt", data.register.jwt);
-    navigate("/");
+    navigate("/login");
   }
-  
+
+  if (loading) {
+    return (
+      <h3 className=" card-panel cyan-text center-align">
+        registration are loading...
+      </h3>
+    );
+  }
+
   return (
     <div>
       <div id="login-page" className="row">
+        <h1 className="card-panel black cyan-text">Register Now</h1>
+
         <div className="col s12 z-depth-6 card-panel">
           {error && <div className="card-panel red">{error.message}</div>}
           <form className="login-form" onSubmit={handleSubmit}>
@@ -60,6 +69,7 @@ export const Register = (props) => {
                   onChange={handleChange}
                   className="validate"
                   id="email"
+                  type="email"
                   name="email"
                   placeholder="Enter Your Email!"
                   required
@@ -72,6 +82,7 @@ export const Register = (props) => {
                 <input
                   onChange={handleChange}
                   id="password"
+                  type="password"
                   name="password"
                   placeholder="Password"
                   required

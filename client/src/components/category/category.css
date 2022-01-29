@@ -1,8 +1,11 @@
 .category_contain {
   display: flex;
-  margin-top: 50px;
+  margin-top: 70px;
   margin-bottom: 30px;
   justify-content: space-evenly;
-  justify-content: center;
   align-items: center;
+}
+
+.abs {
+  margin-left: 25px;
 }

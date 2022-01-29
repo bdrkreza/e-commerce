@@ -5,8 +5,8 @@ import React from "react";
  * @function CartItem
  **/
 
-export const CartItem = ({ item,removeItem }) => {
-  const { img, price, quantity, itemTotal ,id} = item;
+export const CartItem = ({ item, removeItem, updateItemQuantity }) => {
+  const { img, price, quantity, itemTotal, id } = item;
   console.log(item);
   return (
     <>
@@ -20,7 +20,9 @@ export const CartItem = ({ item,removeItem }) => {
               class="button  hollow circle"
               data-quantity="minus"
               data-field="quantity"
+              onClick={() => updateItemQuantity(id, item.quantity - 1)}
             >
+          
               <i class="material-icons">remove</i>
             </button>
           </div>
@@ -28,10 +30,11 @@ export const CartItem = ({ item,removeItem }) => {
             class="input-group-field"
             type="number"
             name="quantity"
-            value="0"
+            value={quantity}
           />
           <div class="input-group-button">
             <button
+              onClick={() => updateItemQuantity(id, item.quantity + 1)}
               type="button"
               class="button hollow circle"
               data-quantity="plus"
@@ -44,7 +47,7 @@ export const CartItem = ({ item,removeItem }) => {
         <p>
           Price-$ {price}+{quantity}={itemTotal}
         </p>
-        <button onClick={()=>removeItem(id)} class="btn-floating black">
+        <button onClick={() => removeItem(id)} class="btn-floating black">
           <i class="material-icons red-text">delete</i>
         </button>
       </div>

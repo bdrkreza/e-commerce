@@ -1,11 +1,14 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useCart } from "react-use-cart";
+import "./Navbar.css";
 /**
  * @author
  * @function Navbar
  **/
 
 export const Navbar = (props) => {
+  const { items } = useCart();
   const navigate = useNavigate();
   const jwt = localStorage.getItem("jwt");
   const logout = () => {
@@ -27,7 +30,7 @@ export const Navbar = (props) => {
         </li>
       </ul>
       <nav>
-        <div className="nav-wrapper">
+        <div className="nav-wrapper container">
           <a href="#!" className="brand-logo">
             <i className="material-icons">cloud</i>Logo
           </a>
@@ -44,12 +47,12 @@ export const Navbar = (props) => {
               </a>
             </li>
             <li>
-              <NavLink to="/cart">
-                <i className="material-icons">
-                  {}
-                  add_shopping_cart
-                </i>
+            <li>
+              <NavLink to="/cart" id="cart">
+                <i className="material-icons">add_shopping_cart</i>
+                <span class="badge #fce4ec pink lighten-5 black-text">{items.length}</span>
               </NavLink>
+            </li>
             </li>
             <li>
               <a href="collapsible.html">

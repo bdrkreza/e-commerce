@@ -12,7 +12,7 @@ export const Login = (props) => {
   let navigate = useNavigate();
   const [formData, setFormData] = useState({});
   const [loginUser, { loading, error, data }] = useMutation(LOGIN_USER);
-
+  console.log(formData);
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -24,22 +24,24 @@ export const Login = (props) => {
     e.preventDefault();
     loginUser({
       variables: {
-        input: formData,
+        email: formData.email,
+        password: formData.password,
       },
     });
   };
 
   if (data) {
-    localStorage.setItem("jwt", data.login.jwt);
+    localStorage.setItem("jwt", data.login.token);
     navigate("/");
   }
-  
+
   return (
     <div>
       <div id="login-page" className="row">
-        <div className="col s12 z-depth-6 card-panel">
+        <h1 className="card-panel #424242 grey darken-3 cyan-text">Login Now</h1>
+        <div className="col s12 z-depth-6 card-panel #e3f2fd blue lighten-5">
           {error && <div className="card-panel red">{error.message}</div>}
-          <form className="login-form" onSubmit={handleSubmit}>
+          <form className="login-form " onSubmit={handleSubmit}>
             <div className="row"></div>
             <div className="row">
               <div className="input-field col s12">
@@ -48,7 +50,8 @@ export const Login = (props) => {
                   onChange={handleChange}
                   className="validate"
                   id="email"
-                  name="identifier"
+                  type="email"
+                  name="email"
                   placeholder="userName or user@gmail.com"
                   required
                 />

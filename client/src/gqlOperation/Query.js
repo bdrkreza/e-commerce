@@ -1,31 +1,20 @@
 import { gql } from "@apollo/client";
 
 export const GET_ALL_PRODUCT = gql`
-  query getAllProduct($pagination: PaginationArg) {
-    products(pagination: $pagination) {
-      data {
-        id
-        attributes {
-          name
-          description
-          price
-          image {
-            data {
-              attributes {
-                url
-              }
-            }
-          }
-        }
-      }
-      meta {
-        pagination {
-          page
-          pageSize
-          pageCount
-          total
-        }
-      }
+  query Products {
+    products {
+      _id
+      name
+      title
+      image
+      rating
+      price
+      quantity
+      description
+      slug
+      stock
+      onSale
+      category
     }
   }
 `;
@@ -33,20 +22,18 @@ export const GET_ALL_PRODUCT = gql`
 export const GET_PRODUCT = gql`
   query Product($productId: ID) {
     product(id: $productId) {
-      data {
-        id
-        attributes {
-          name
-          price
-          description
-          image {
-            data {
-              attributes {
-                url
-              }
-            }
-          }
-        }
+      title
+      name
+      image
+      price
+      quantity
+      description
+      slug
+      stock
+      onSale
+      category
+      review {
+        date
       }
     }
   }
@@ -55,38 +42,32 @@ export const GET_PRODUCT = gql`
 export const GET_ALL_CATEGORY = gql`
   query Categories {
     categories {
-      data {
-        id
-        attributes {
-          name
-        }
-      }
+      _id
+      image
+      category
     }
   }
 `;
 
 export const GET_PRODUCT_BY_CATEGORY = gql`
-  query Category($categoryId: ID) {
+  query Category($categoryId: ID!) {
     category(id: $categoryId) {
-      data {
-        attributes {
-          products {
-            data {
-              id
-              attributes {
-                name
-                price
-                description
-                image {
-                  data {
-                    attributes {
-                      url
-                    }
-                  }
-                }
-              }
-            }
-          }
+      products {
+        _id
+        name
+        title
+        image
+        price
+        rating
+        quantity
+        description
+        category
+        review {
+          user
+          date
+          title
+          comment
+          rating
         }
       }
     }

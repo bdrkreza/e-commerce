@@ -1,19 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { BACKEND_URL } from "../../helpers/helpers";
 
 /**
  * @author
  * @function ProductCard
  **/
 
-export const ProductCard = ({ data, image,Id }) => {
-  const { description, name, price } = data;
+export const ProductCard = ({ data }) => {
+  const { description, name, price, image, _id } = data;
   return (
-    <Link to={`/product/${Id}`}>
+    <Link to={`/product/${_id}`}>
       <div className="card card-body">
         <div className="card-image">
-          <img src={`${BACKEND_URL + image}`} />
+          <img src={image} />
           <a className="btn-floating halfway-fab waves-effect waves-light red">
             <i className="material-icons">add</i>
           </a>
