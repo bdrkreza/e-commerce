@@ -10,7 +10,7 @@ export const CartItem = ({ item, removeItem, updateItemQuantity }) => {
   console.log(item);
   return (
     <>
-      <div class="card-content white-text">
+      <div class="card-content black-text">
         <img src={img} alt="product_image" />
         <span class="card-title truncate">this is Title</span>
         <div class="input-group plus-minus-input">

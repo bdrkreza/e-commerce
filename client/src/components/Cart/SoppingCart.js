@@ -39,7 +39,7 @@ export const SoppingCart = (props) => {
     <div>
       <div className="row">
         <div className="col s12 m12 l7">
-          <div className="card blue-grey darken-0">
+          <div className="card  black-text">
             {items?.map((item) => (
               <CartItem item={item} removeItem={removeItem} updateItemQuantity={updateItemQuantity} />
             ))}
@@ -52,8 +52,8 @@ export const SoppingCart = (props) => {
         <div className="col l5">
           <div className="row">
             <div className="col s12 m12">
-              <div className="card blue-grey darken-1">
-                <div className="card-content white-text">
+              <div className="card #bdbdbd grey lighten-1">
+                <div className="card-content black-text">
                   <div>
                     <p>Total-item</p>
                     <p>shipping</p>

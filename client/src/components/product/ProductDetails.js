@@ -20,19 +20,23 @@ export const ProductDetails = () => {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :{error}}</p>;
-  const { name, image, description, price } = data?.product;
+  const { name, image, title, description, price  } = data?.product;
 
   const addToCart = () => {
     addItem({
       id: productId,
       name,
+      title,
       price,
       img: image,
     });
   };
 
+
+
   return (
-    <div className="card card-container">
+<>
+<div className="card card-container">
       <div className="container">
         <div className="row card">
           <div className="col s6">
@@ -40,13 +44,13 @@ export const ProductDetails = () => {
           </div>
           <div className="col s6">
             <h4>{name}</h4>
-            <h6>{description}</h6>
+            <button className="btn brown">Price ${price}</button>
+            <h4 className="card truncate blue-grey">{title}</h4>
+            <h5>{description}</h5>
             <div className="addToCart">
-              <h3>${price}</h3>
-
               <button
                 onClick={addToCart}
-                className="btn  #d50000 red  pulse actionButtons"
+                className="btn-large  #d50000 red pulse"
               >
                 addToCart
               </button>
@@ -55,5 +59,7 @@ export const ProductDetails = () => {
         </div>
       </div>
     </div>
+ 
+</>
   );
 };

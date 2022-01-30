@@ -1,3 +1,4 @@
+const { AuthenticationError } = require("apollo-server");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Category = require("../models/category.model");
@@ -86,27 +87,81 @@ mutation = {
       throw error;
     }
   },
-  addCategory: async (_, { input }, context) => {
+  deleteProduct: async (_, { id }, ctx) => {
+    try {
+      if (!ctx.user || !ctx.user.role.includes("admin")) return null;
+      const product = await Product.findById({ _id: id });
+      if (product) {
+        await product.remove();
+        throw "product Deleted successfully!";
+      } else {
+        throw "product not found with this Id!";
+      }
+    } catch (error) {
+      throw new AuthenticationError(error);
+    }
+    return true;
+  },
+  updateProduct: async (_, { id, input }, ctx) => {
+    try {
+      console.log(input);
+      if (!ctx.user || !ctx.user.role.includes("admin")) return null;
+      const product = await Product.findOne({ _id: id });
+      if (product) {
+        product = await Product.findOneAndUpdate({ _id: product._id }, input, {
+          new: true,
+        });
+        return product;
+      } else {
+        throw "Product not found.";
+      }
+    } catch (error) {
+      throw new AuthenticationError(error);
+    }
+  },
+  addCategory: async (_, { input }, ctx) => {
     const { image, slug, category } = input;
     try {
-      if (!context.user || !context.user.role.includes("admin")) return null;
+      if (!ctx.user || !ctx.user.role.includes("admin")) return null;
       const newCategory = await new Category({ image, slug, category });
       return await newCategory.save();
     } catch (error) {
-      throw error;
+      throw new AuthenticationError(error);
     }
   },
-  addReview: async (_, { input },context) => {
-    if (!context.user) return null;
-    const product = await Product.findOne({ _id: input.productId });
-    const review = {
-      title: input.title,
-      comment: input.comment,
-      rating: input.rating,
-    };
-    product.review.push(review);
-    const saveProduct = await Product.save();
-    return saveProduct;
+
+  deleteCategory: async (_, { id }, ctx) => {
+    try {
+      if (!ctx.user || !ctx.user.role.includes("admin")) return null;
+      const category = await Category.findById({ _id: id });
+      if (category) {
+        await category.remove();
+        throw "category Deleted successfully!";
+      } else {
+        throw "category not found with this Id!";
+      }
+    } catch (error) {
+      throw new AuthenticationError(error);
+    }
+  },
+  addReview: async (_, { input, id }, ctx) => {
+    try {
+      if (!ctx.user) return null;
+      const product = await Product.findOne({ _id: id });
+      if (product) {
+        const review = {
+          ...input,
+          user: ctx.user._id,
+        };
+        product.review.push(review);
+        const saveProduct = await product.save();
+        return review;
+      } else {
+        throw "product not found with this Id!";
+      }
+    } catch (error) {
+      throw new AuthenticationError(error);
+    }
   },
 };
 

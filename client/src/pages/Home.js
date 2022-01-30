@@ -30,9 +30,9 @@ export const Home = (props) => {
   }
   return (
     <div>
-      <div className="container cyan-text"><h1>Category</h1></div>
+      <div className="container cyan-text"><h1>category</h1></div>
       <Categories/>
-      <div className="card-panel center-align cyan-text"><h1>Product</h1></div>
+      <div className="container cyan-text"><h1>product</h1></div>
       <Product data={data?.products} />
     </div>
   );

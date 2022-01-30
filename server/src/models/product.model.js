@@ -1,11 +1,10 @@
 const mongoose = require("mongoose");
-
-const commentSchema = new mongoose.Schema({
+const ReviewSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.ObjectId,
     ref: "User",
   },
-  
+
   rating: { type: Number, required: true },
   title: { type: String, required: true },
   comment: { type: String, trim: true, required: true },
@@ -24,7 +23,7 @@ const ProductSchema = mongoose.Schema({
   onSale: { type: Boolean },
   quantity: { type: String, required: true },
   category: { type: String, required: true },
-  review: [commentSchema],
+  review: [ReviewSchema],
 });
 
 const Product = mongoose.model("product", ProductSchema);

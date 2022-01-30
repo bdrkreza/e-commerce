@@ -1,30 +1,48 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import { useCart } from "react-use-cart";
 /**
  * @author
  * @function ProductCard
  **/
 
 export const ProductCard = ({ data }) => {
-  const { description, name, price, image, _id } = data;
+  const { name, title, price, image, _id } = data;
+  const { addItem } = useCart();
+  const addToCart = () => {
+    addItem({
+      id: _id,
+      name,
+      title,
+      price,
+      img: image,
+    });
+  };
+
   return (
-    <Link to={`/product/${_id}`}>
-      <div className="card card-body">
+    <>
+      <div className="card card-body card_body">
         <div className="card-image">
-          <img src={image} />
-          <a className="btn-floating halfway-fab waves-effect waves-light red">
+          <Link to={`/product/${_id}`}>
+            <img src={image} alt="img" />
+          </Link>
+          <button
+            onClick={addToCart}
+            className="btn-floating halfway-fab waves-effect waves-light red"
+          >
             <i className="material-icons">add</i>
-          </a>
+          </button>
         </div>
-        <div className="card-content">
-          <h4 className="truncate">{name}</h4>
-          <p className="truncate"> {description}</p>
-        </div>
+        <Link to={`/product/${_id}`}>
+          <div className="card_title">
+            <h4>{name}</h4>
+            <h5 className="truncate">{title}</h5>
+          </div>
+        </Link>
         <div>
-          <h2>{price}</h2>
+          <button className="btn-large">${price}</button>
         </div>
       </div>
-    </Link>
+    </>
   );
 };

@@ -8,7 +8,7 @@ import { GET_PRODUCT_BY_CATEGORY } from "../../gqlOperation/Query";
  * @function ProductByCategory
  **/
 
-export const ProductByCategory = (props) => {
+export const ProductByCategory = () => {
   const { categoryId } = useParams();
   const { loading, error, data } = useQuery(GET_PRODUCT_BY_CATEGORY, {
     variables: {

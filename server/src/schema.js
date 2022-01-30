@@ -11,8 +11,14 @@ const typeDefs = gql`
     createUser(input: UserInput!): User
     login(email: String, password: String): Tokens
     addProduct(input: addProductInput): Product
+    deleteProduct(id: ID!): Boolean
+    updateProduct(id: ID!, input: addProductInput): Product
     addCategory(input: addCategoryInput): Category
-    addReview(input: AddReviewInput): Review
+    deleteCategory(id: ID!): Boolean
+    updateCategory(id: ID!, input: addCategoryInput): Category
+    addReview(id: ID!, input: AddReviewInput): Review
+    deleteReview(id: ID): Boolean
+    updateReview(id: ID!, input: AddReviewInput): Review
   }
 
   type User {
@@ -88,13 +94,13 @@ const typeDefs = gql`
     title: String!
     comment: String!
     rating: Int!
+    productId: String!
   }
 
   input AddReviewInput {
     title: String!
     comment: String!
     rating: Int!
-    productId: ID
   }
 `;
 
