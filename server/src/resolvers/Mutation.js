@@ -52,7 +52,12 @@ mutation = {
     });
     return { userId: user.id, token: token, tokenExpiration: 1 };
   },
-  addProduct: async (_, { input }, { userId }, context) => {
+    /**
+   * add new product route
+   * @route POST 
+   * @access private admin
+   */
+  addProduct: async (_, { input }, { user }) => {
     const {
       name,
       title,
@@ -68,7 +73,8 @@ mutation = {
     } = input;
 
     try {
-      if (!context.user || !context.user.role.includes("admin")) return null;
+      if (!user || !user.role.includes("admin"))
+        throw new AuthenticationError("not admin");
       const newProduct = Product({
         name,
         title,
@@ -87,6 +93,11 @@ mutation = {
       throw error;
     }
   },
+    /**
+   * product delete route
+   * @route POST 
+   * @access private admin
+   */
   deleteProduct: async (_, { id }, ctx) => {
     try {
       if (!ctx.user || !ctx.user.role.includes("admin")) return null;
@@ -102,16 +113,21 @@ mutation = {
     }
     return true;
   },
-  updateProduct: async (_, { id, input }, ctx) => {
+    /**
+   * product update route
+   * @route POST 
+   * @access private admin
+   */
+  updateProduct: async (_, { id, input }, { user }) => {
     try {
-      console.log(input);
-      if (!ctx.user || !ctx.user.role.includes("admin")) return null;
+      if (!user || !user.role.includes("admin")) return null;
       const product = await Product.findOne({ _id: id });
       if (product) {
-        product = await Product.findOneAndUpdate({ _id: product._id }, input, {
+       const updateProduct = await Product.findOneAndUpdate({ _id: product._id }, input, {
           new: true,
+
         });
-        return product;
+        return updateProduct;
       } else {
         throw "Product not found.";
       }
@@ -119,20 +135,30 @@ mutation = {
       throw new AuthenticationError(error);
     }
   },
-  addCategory: async (_, { input }, ctx) => {
+    /**
+   * add a new product category
+   * @route POST 
+   * @access private admin
+   */
+  addCategory: async (_, { input }, { user }) => {
     const { image, slug, category } = input;
     try {
-      if (!ctx.user || !ctx.user.role.includes("admin")) return null;
+      if (!user || !user.role.includes("admin")) return null;
       const newCategory = await new Category({ image, slug, category });
       return await newCategory.save();
     } catch (error) {
       throw new AuthenticationError(error);
     }
   },
+    /**
+   * delete Product route
+   * @route POST 
+   * @access private admin
+   */
 
-  deleteCategory: async (_, { id }, ctx) => {
+  deleteCategory: async (_, { id }, { user }) => {
     try {
-      if (!ctx.user || !ctx.user.role.includes("admin")) return null;
+      if (!user || !user.role.includes("admin")) return null;
       const category = await Category.findById({ _id: id });
       if (category) {
         await category.remove();
@@ -144,14 +170,19 @@ mutation = {
       throw new AuthenticationError(error);
     }
   },
-  addReview: async (_, { input, id }, ctx) => {
+    /**
+   * add a product Review 
+   * @route POST 
+   * @access private
+   */
+  addReview: async (_, { input, id }, { user }) => {
     try {
-      if (!ctx.user) return null;
+      if (!user) return null;
       const product = await Product.findOne({ _id: id });
       if (product) {
         const review = {
           ...input,
-          user: ctx.user._id,
+          user: user._id,
         };
         product.review.push(review);
         const saveProduct = await product.save();

@@ -1,7 +1,7 @@
 const Product = require("../models/product.model");
 
 const Category = {
-  products: async (parent, { slug }) =>
+  products: async (parent) =>
     Product.find({ category: parent.category }),
 };
 
