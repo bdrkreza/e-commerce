@@ -12,7 +12,7 @@ export const Login = (props) => {
   let navigate = useNavigate();
   const [formData, setFormData] = useState({});
   const [loginUser, { loading, error, data }] = useMutation(LOGIN_USER);
-  console.log(formData);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,

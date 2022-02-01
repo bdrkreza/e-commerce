@@ -27,9 +27,9 @@ app.use(middleware);
 connectMongoDB();
 
 const context = ({ req }) => {
-  const { authorization } = req.headers;
-  if (authorization) {
-    const user = jwt.verify(authorization, process.env.JWT_SECRET);
+  const token = req.headers.authorization || "";
+  if (token) {
+    const user = jwt.verify(token, process.env.JWT_SECRET);
     return user;
   }
 };

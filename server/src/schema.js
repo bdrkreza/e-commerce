@@ -2,13 +2,15 @@ const { gql } = require("apollo-server");
 const typeDefs = gql`
   type Query {
     user: [User]
+    getUser: User
     categories: [Category!]
     products: [Product!]!
     product(id: ID): Product
     category(id: ID!): Category
+    getBasket: [Items!]
   }
   type Mutation {
-    createUser(input: UserInput!): User
+    createUser(input: registerInput!): User
     login(email: String, password: String): Tokens
     addProduct(input: addProductInput): Product
     deleteProduct(id: ID!): Boolean
@@ -19,6 +21,7 @@ const typeDefs = gql`
     addReview(id: ID!, input: AddReviewInput): Review
     deleteReview(id: ID): Boolean
     updateReview(id: ID!, input: AddReviewInput): Review
+    addToBasket(id: ID, input: AddItemInput): User
   }
 
   type User {
@@ -27,15 +30,14 @@ const typeDefs = gql`
     image: String!
     email: String!
     password: String!
+    basket: [Items!]
     role: String!
   }
 
-  input UserInput {
+  input registerInput {
     username: String!
-    image: String
     email: String!
     password: String!
-    role: String
   }
 
   type Tokens {
@@ -101,6 +103,26 @@ const typeDefs = gql`
     title: String!
     comment: String!
     rating: Int!
+  }
+  type Items {
+    id: ID!
+    address: String!
+    state: String!
+    city: String!
+    amount: String!
+    pin: String!
+    product: Product!
+    quantity: Int!
+  }
+  input AddItemInput {
+    address: String!
+    state: String!
+    city: String!
+    amount: String!
+    pin: Int!
+    quantity: Int!
+    payToken: String
+    product: String
   }
 `;
 

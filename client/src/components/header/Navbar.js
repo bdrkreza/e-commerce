@@ -8,6 +8,7 @@ import "./Navbar.css";
  **/
 
 export const Navbar = (props) => {
+
   const { items } = useCart();
   const navigate = useNavigate();
   const jwt = localStorage.getItem("jwt");
@@ -29,44 +30,49 @@ export const Navbar = (props) => {
           <a href="#!">three</a>
         </li>
       </ul>
-      <nav>
-        <div className="nav-wrapper container">
+      <nav >
+        <div className="nav-wrapper container sticky">
           <a href="#!" className="brand-logo">
             <i className="material-icons">cloud</i>Logo
           </a>
 
           <ul className="right hide-on-med-and-down">
+       
             <li>
-              <a href="sass.html">
-                <i className="material-icons">search</i>
-              </a>
-            </li>
-            <li>
-              <a href="badges.html">
-                <i className="material-icons">view_module</i>
-              </a>
-            </li>
-            <li>
-            <li>
-              <NavLink to="/cart" id="cart">
-                <i className="material-icons">add_shopping_cart</i>
-                <span class="badge #fce4ec pink lighten-5 black-text">{items.length}</span>
+              <NavLink to="/about">
+                <h5>about</h5>
               </NavLink>
             </li>
-            </li>
             <li>
-              <a href="collapsible.html">
-                <i className="material-icons">refresh</i>
-              </a>
-            </li>
-            {jwt ? (
               <li>
-                <NavLink to="/login">
-                  <i className="material-icons" onClick={logout}>
-                    logout
-                  </i>
+                <NavLink to="/cart" id="cart">
+                  <i className="material-icons">add_shopping_cart</i>
+                  <span class="badge #fce4ec pink lighten-5 black-text">
+                    {items.length}
+                  </span>
                 </NavLink>
               </li>
+            </li>
+
+            {jwt ? (
+              <>
+                <li>
+                  <NavLink
+                    class="dropdown-trigger"
+                    to="/profile"
+                    data-target="dropdown1"
+                  >
+                    Profile
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/login">
+                    <i className="material-icons" onClick={logout}>
+                      logout
+                    </i>
+                  </NavLink>
+                </li>
+              </>
             ) : (
               <li>
                 <NavLink to="/login">login</NavLink>
@@ -77,16 +83,17 @@ export const Navbar = (props) => {
                 <i className="material-icons">more_vert</i>
               </a>
             </li>
+            <li>
+              <a href="sass.html">
+                <i className="material-icons">search</i>
+              </a>
+            </li>
           </ul>
           <ul class="right hide-on-med-and-down">
             <li>
-              <NavLink to="/">home</NavLink>
-            </li>
-
-            <li>
-              <a class="dropdown-trigger" href="#!" data-target="dropdown1">
-                Profile
-              </a>
+              <NavLink to="/">
+                <h5>home</h5>
+              </NavLink>
             </li>
           </ul>
         </div>

@@ -48,13 +48,13 @@ mutation = {
       throw new Error("Password is incorrect!");
     }
     const token = jwt.sign({ user }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "1d",
     });
     return { userId: user.id, token: token, tokenExpiration: 1 };
   },
-    /**
+  /**
    * add new product route
-   * @route POST 
+   * @route POST
    * @access private admin
    */
   addProduct: async (_, { input }, { user }) => {
@@ -93,9 +93,9 @@ mutation = {
       throw error;
     }
   },
-    /**
+  /**
    * product delete route
-   * @route POST 
+   * @route POST
    * @access private admin
    */
   deleteProduct: async (_, { id }, ctx) => {
@@ -113,9 +113,9 @@ mutation = {
     }
     return true;
   },
-    /**
+  /**
    * product update route
-   * @route POST 
+   * @route POST
    * @access private admin
    */
   updateProduct: async (_, { id, input }, { user }) => {
@@ -123,10 +123,13 @@ mutation = {
       if (!user || !user.role.includes("admin")) return null;
       const product = await Product.findOne({ _id: id });
       if (product) {
-       const updateProduct = await Product.findOneAndUpdate({ _id: product._id }, input, {
-          new: true,
-
-        });
+        const updateProduct = await Product.findOneAndUpdate(
+          { _id: product._id },
+          input,
+          {
+            new: true,
+          }
+        );
         return updateProduct;
       } else {
         throw "Product not found.";
@@ -135,9 +138,9 @@ mutation = {
       throw new AuthenticationError(error);
     }
   },
-    /**
+  /**
    * add a new product category
-   * @route POST 
+   * @route POST
    * @access private admin
    */
   addCategory: async (_, { input }, { user }) => {
@@ -150,9 +153,9 @@ mutation = {
       throw new AuthenticationError(error);
     }
   },
-    /**
+  /**
    * delete Product route
-   * @route POST 
+   * @route POST
    * @access private admin
    */
 
@@ -170,9 +173,9 @@ mutation = {
       throw new AuthenticationError(error);
     }
   },
-    /**
-   * add a product Review 
-   * @route POST 
+  /**
+   * add a product Review
+   * @route POST
    * @access private
    */
   addReview: async (_, { input, id }, { user }) => {
@@ -185,13 +188,32 @@ mutation = {
           user: user._id,
         };
         product.review.push(review);
-        const saveProduct = await product.save();
+        await product.save();
         return review;
       } else {
         throw "product not found with this Id!";
       }
     } catch (error) {
       throw new AuthenticationError(error);
+    }
+  },
+  addToBasket: async (_, { id, input }, { user }) => {
+    try {
+      console.log(input);
+      if (!user) return null;
+      const orderUser = await User.findById({ _id: user._id });
+      if (orderUser) {
+        const OrderItem = {
+          ...input,
+        };
+        orderUser.basket.push(OrderItem);
+        await orderUser.save();
+        return orderUser;
+      } else {
+        throw "product not found with this Id!";
+      }
+    } catch (error) {
+      throw error;
     }
   },
 };

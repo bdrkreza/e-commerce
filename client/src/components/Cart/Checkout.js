@@ -1,3 +1,4 @@
+import { useMutation } from "@apollo/client";
 import {
   CardElement,
   Elements,
@@ -7,7 +8,7 @@ import {
 import { loadStripe } from "@stripe/stripe-js";
 import { useState } from "react";
 import { useCart } from "react-use-cart";
-import { BACKEND_URL } from "../../helpers/helpers";
+import { USER_ORDER_PRODUCT } from "../../gqlOperation/mutation";
 import { STRIPE_SECRET_KEY } from "../../Stripe/api_key";
 
 const stripePromise = loadStripe(STRIPE_SECRET_KEY);
@@ -24,31 +25,17 @@ const CheckoutFrom = (props) => {
   const [payBtn, setPayBtn] = useState(true);
   const [payProcess, setPayProcess] = useState(false);
   const [processDone, setProcessDone] = useState(false);
-  const [error, setError] = useState(false);
+  const [orderUser, { data }] = useMutation(USER_ORDER_PRODUCT, {
+    variables: {
+      addToBasketId: items._id,
+    },
+  });
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
-  };
-
-  const makePaymentRequest = async (allFormData) => {
-    try {
-      const res = await fetch(`${BACKEND_URL}/api/orders`, {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("jwt"),
-        },
-        body: JSON.stringify(allFormData),
-      });
-      if (res.status !== 200) throw Error("Payment failed");
-      return await res.json();
-    } catch (err) {
-      setError(true);
-      console.log(err);
-    }
   };
 
   const handleSubmit = async (event) => {
@@ -62,12 +49,17 @@ const CheckoutFrom = (props) => {
 
     const allFormData = {
       ...formData,
-      token: payload.token.id,
+      payToken: payload.token.id,
       amount: cartTotal,
       items: items,
     };
     setPayProcess(true);
-    const data = await makePaymentRequest(allFormData);
+
+    orderUser({
+      variables: {
+        input: allFormData,
+      },
+    });
     setPayProcess(false);
     if (data) {
       setProcessDone(true);
@@ -79,10 +71,6 @@ const CheckoutFrom = (props) => {
 
   if (payProcess) {
     return <h3 className=" card-panel">Payment is Processing.....</h3>;
-  }
-
-  if (error) {
-    return <h2 className=" card-panel red-text"> Payment failed</h2>;
   }
 
   if (processDone) {

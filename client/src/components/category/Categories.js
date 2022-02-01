@@ -17,11 +17,10 @@ export const Categories = (props) => {
     return <h3 className=" card-panel red-text">{error.message}</h3>;
   }
   return (
-    <div className="container category_contain row">
-    
+    <div className="container category_contain">
       {data?.categories.map((category) => {
         return (
-         <div className="col3">
+         <>
             <div className=" abs">
             <NavLink
               to={`/category/${category._id}`}
@@ -38,7 +37,7 @@ export const Categories = (props) => {
               </div>
             </NavLink>
           </div>
-         </div>
+         </>
         );
       })}
       </div>

@@ -1,0 +1,30 @@
+.payment_modal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(77, 77, 77, 0.7);
+  transition: all 0.4s;
+}
+
+.modal__content {
+  border-radius: 4px;
+  position: relative;
+  max-width: 100%;
+  background: #fff;
+  padding: 1em 2em;
+}
+
+.modal__close {
+  position: absolute;
+  cursor: pointer;
+  width: 30px;
+  top: 8px;
+  right: 5px;
+  color: #585858;
+  text-decoration: none;
+}

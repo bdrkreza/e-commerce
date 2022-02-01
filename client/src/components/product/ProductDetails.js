@@ -32,8 +32,6 @@ export const ProductDetails = () => {
     });
   };
 
-
-
   return (
 <>
 <div className="card card-container">
@@ -59,7 +57,6 @@ export const ProductDetails = () => {
         </div>
       </div>
     </div>
- 
 </>
   );
 };

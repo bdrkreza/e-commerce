@@ -7,14 +7,8 @@ export const GET_ALL_PRODUCT = gql`
       name
       title
       image
-      rating
       price
-      quantity
-      description
-      slug
-      stock
-      onSale
-      category
+      rating
     }
   }
 `;
@@ -83,6 +77,34 @@ export const GET_PRODUCT_SEARCH_NAME = gql`
           name
         }
       }
+    }
+  }
+`;
+
+export const GET_USER_ORDER = gql`
+  query GetBasket {
+    getBasket {
+      state
+      id
+      amount
+      city
+      quantity
+      product {
+        title
+        description
+        name
+        image
+      }
+    }
+  }
+`;
+
+export const GET_USER = gql`
+  query GetUser {
+    getUser {
+      username
+      image
+      email
     }
   }
 `;
