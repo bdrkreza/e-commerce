@@ -28,7 +28,7 @@ export const ProductDetails = () => {
       name,
       title,
       price,
-      img: image,
+      image,
     });
   };
 

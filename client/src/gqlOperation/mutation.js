@@ -10,24 +10,24 @@ export const LOGIN_USER = gql`
 `;
 
 export const REGISTER_USER = gql`
-  mutation CreateUser($input: UserInput!) {
+  mutation CreateUser($input: registerInput!) {
     createUser(input: $input) {
       username
       email
+      role
     }
   }
 `;
 
 export const USER_ORDER_PRODUCT = gql`
-mutation AddToBasket($addToBasketId: ID, $input: AddItemInput) {
-  addToBasket(id: $addToBasketId, input: $input) {
-    basket {
-      amount
-      quantity
-      product {
-        _id
+  mutation AddToBasket($input: AddItemInput) {
+    addToBasket(input: $input) {
+      email
+      username
+      basket {
+        id
+        price
       }
     }
   }
-}
 `;

@@ -3,13 +3,8 @@
  * @function CartItem
  **/
 
-export const CartItem = ({
-  item,
-  removeItem,
-  updateItemQuantity,
-  totalUniqueItems,
-}) => {
-  const { img, price, quantity, itemTotal, id, title, name } = item;
+export const CartItem = ({ item, removeItem, updateItemQuantity }) => {
+  const { image, price, quantity, itemTotal, id, title, name } = item;
 
   return (
     <>
@@ -17,13 +12,13 @@ export const CartItem = ({
         <div class="summary_card">
           <div class="card_item">
             <div class="product_img">
-              <img src={img} alt="product-img" />
+              <img src={image} alt="product-img" />
             </div>
             <div class="product_info">
               <h1>{name}</h1>
-              <p className=" truncate">{title}</p>
+              <p className="truncate">{title}</p>
               <hr />
-              <div class="close-btn ">
+              <div class="close-btn">
                 <button
                   class="btn waves-light #ffcdd2 red lighten-4 red-text"
                   onClick={() => removeItem(id)}

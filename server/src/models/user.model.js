@@ -1,5 +1,38 @@
 const mongoose = require("mongoose");
 
+const orderSchema = mongoose.Schema({
+  product: [
+    {
+      id: { type: String, required: true },
+      image: { type: String, required: true },
+      itemTotal: { type: Number, required: true },
+      name: { type: String, required: true },
+      price: { type: String, required: true },
+      quantity: { type: Number, required: true },
+      title: { type: String, required: true },
+    },
+  ],
+  quantity: { type: Number },
+  price: { type: Number },
+  shipment: {
+    address: { type: String },
+    state: { type: String },
+    city: { type: String },
+    pin: { type: String },
+  },
+  paymentId: { type: String },
+  date: { type: Date, default: Date.now },
+});
+
+[
+  {
+    address: { type: String, required: true },
+    state: { type: String, required: true },
+    city: { type: String, required: true },
+    pin: { type: String, required: true },
+  },
+];
+
 const UserSchema = mongoose.Schema({
   username: { type: String, required: true },
   email: { type: String, required: true, unique: true },
@@ -10,22 +43,7 @@ const UserSchema = mongoose.Schema({
     default: "user",
     enum: ["admin", "merchant", "user"],
   },
-  basket: [
-    {
-      product: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "product",
-      },
-      address: { type: String },
-      state: { type: String },
-      city: { type: String },
-      amount: { type: String },
-      pin: { type: Number },
-      quantity: { type: Number },
-      payToken: { type: String },
-      date: { type: Date, default: Date.now },
-    },
-  ],
+  basket: [orderSchema],
 });
 
 const User = mongoose.model("users", UserSchema);

@@ -18,10 +18,12 @@ export const SoppingCart = (props) => {
     isEmpty,
     items,
     cartTotal,
-    totalUniqueItems,
+    totalItems,
     removeItem,
     updateItemQuantity,
   } = useCart();
+
+
 
   if (isEmpty) {
     return (
@@ -50,7 +52,7 @@ export const SoppingCart = (props) => {
         <div className="col s12 m6 l6 center-align">
           <div className="title">
             <h3>Order Summary</h3>
-            <h3 className="blue-grey-text">{totalUniqueItems}</h3>
+            <h3 className="blue-grey-text">{totalItems}</h3>
           </div>
           <>
             {items?.map((item) => (
@@ -66,7 +68,7 @@ export const SoppingCart = (props) => {
         <div className="col s12 m6 l6">
           <div className="container">
             <h3>Info</h3>
-            <Calculate cartTotal={cartTotal} />
+            <Calculate cartTotal={cartTotal} items={items}  />
             <div class="payment">
               <div className="add">
                 <h4 class="headline-primary">Payment</h4>

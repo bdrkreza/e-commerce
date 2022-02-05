@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { Categories } from "../components/category/Categories";
+import { Hero } from "../components/hero/Hero";
 import { Product } from "../components/product/Product";
 import { GET_ALL_PRODUCT } from "../gqlOperation/Query";
 
@@ -17,22 +18,31 @@ export const Home = (props) => {
       refetch();
     }
   }, [page]);
-  
+
   const updatePage = (page) => {
     setPage(page);
   };
 
   if (loading) {
-    return <h3 className=" card-panel cyan-text center-align">Product are loading...</h3>;
+    return (
+      <h3 className=" card-panel cyan-text center-align">
+        Product are loading...
+      </h3>
+    );
   }
   if (error) {
     return <h3 className=" card-panel red-text cyan-text">{error.message}</h3>;
   }
   return (
     <div>
-      <div className="container cyan-text"><h1>category</h1></div>
-      <Categories/>
-      <div className="container cyan-text"><h1>product</h1></div>
+      <Hero data={data.products} />
+      <div className="container cyan-text">
+        <h1>category</h1>
+      </div>
+      <Categories />
+      <div className="container cyan-text">
+        <h1>product</h1>
+      </div>
       <Product data={data?.products} />
     </div>
   );

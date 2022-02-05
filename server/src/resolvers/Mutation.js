@@ -197,10 +197,11 @@ mutation = {
       throw new AuthenticationError(error);
     }
   },
-  addToBasket: async (_, { id, input }, { user }) => {
+  addToBasket: async (_, {input}, { user }) => {
     try {
       console.log(input);
       if (!user) return null;
+
       const orderUser = await User.findById({ _id: user._id });
       if (orderUser) {
         const OrderItem = {

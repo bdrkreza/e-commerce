@@ -19,7 +19,7 @@ export const Register = (props) => {
       [e.target.name]: e.target.value,
     });
   };
-
+console.log(formData);
   const handleSubmit = (e) => {
     e.preventDefault();
     registerUser({

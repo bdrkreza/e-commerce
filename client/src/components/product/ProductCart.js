@@ -15,7 +15,7 @@ export const ProductCard = ({ data }) => {
       name,
       title,
       price,
-      img: image,
+      image,
     });
   };
 

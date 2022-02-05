@@ -16,7 +16,3 @@
 .body {
   min-height: 60vh;
 }
-
-main {
-  flex: 1 0 auto;
-}

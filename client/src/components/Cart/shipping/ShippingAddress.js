@@ -1,6 +1,8 @@
+import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useCart } from "react-use-cart";
+import { USER_ORDER_PRODUCT } from "../../../gqlOperation/mutation";
 import { PaymentProcess } from "../payment/PaymentProcess";
 /**
  * @author
@@ -8,9 +10,11 @@ import { PaymentProcess } from "../payment/PaymentProcess";
  **/
 
 export const Shipping = (props) => {
-  const { cartTotal, items, emptyCart } = useCart();
+  const [basket, { loading, error, data }] = useMutation(USER_ORDER_PRODUCT);
+  const { cartTotal, items, totalItems, emptyCart } = useCart();
   const [shippingData, setShippingData] = useState(null);
-console.log(shippingData);
+console.log(items);
+
   const {
     register,
     handleSubmit,
@@ -19,21 +23,31 @@ console.log(shippingData);
   const onSubmit = (data) => {
     setShippingData(data);
   };
-
-  const display = {
-    display: 'block'
-  };
-  const hide = {
-    display: 'none'
-  };
+  // let cart = [];
+  // items.find((id) => {
+  //   console.log(id);
+  //   if (id) cart.push(id.id, id.quantity);
+  // });
 
   const handlePaymentSuccess = (paymentId) => {
-    const orderDetails = {
+    const order = {
       shipment: shippingData,
-      price: cartTotal,
       product: items,
+      price: cartTotal,
+      quantity: totalItems,
       paymentId,
     };
+    basket({
+      variables:{
+        input: {
+          price: cartTotal,
+          paymentId: paymentId,
+          shipment: shippingData,
+          quantity: totalItems,
+          product: items
+        }
+      }
+    });
   };
   return (
     <div className="container row">
@@ -105,10 +119,7 @@ console.log(shippingData);
         class="col-md-6"
         style={{ display: shippingData ? "block" : "none" }}
       >
-        <PaymentProcess
-          handlePaymentSuccess={handlePaymentSuccess}
-          shippingData={shippingData}
-        />
+        <PaymentProcess handlePaymentSuccess={handlePaymentSuccess} shippingData={shippingData} />
       </div>
     </div>
   );

@@ -1,0 +1,88 @@
+.date {
+  display: flex;
+  justify-content: space-evenly;
+  font-size: 50px;
+}
+.date label {
+  font-size: 15px;
+  color: rgb(149, 186, 228);
+}
+
+.cart_container {
+  background: #174395;
+  border-radius: 20px;
+  height: 350px;
+  margin: 50px;
+  overflow: hidden;
+  padding: 20px;
+  position: relative;
+  width: 490px;
+}
+.stripe-card {
+  justify-content: center;
+  align-items: center;
+}
+.card_number label {
+  font-size: 15px;
+  color: rgb(149, 186, 228);
+}
+.cart_btn {
+  margin-top: 30px;
+  width: 100px;
+}
+.cart_container img {
+  position: absolute;
+  margin-left: 100px;
+  height: 70px;
+}
+.shine {
+  background: rgba(255, 255, 255, 0.05);
+  left: 390px;
+  top: 0;
+  margin: 0 15px 0 0;
+  padding: 0;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  -webkit-transform: skew(50deg);
+  -moz-transform: skew(50deg);
+  -ms-transform: skew(50deg);
+  -o-transform: skew(50deg);
+  transform: skew(50deg);
+}
+
+.shine-layer-two {
+  -webkit-transform: skew(80deg);
+  -moz-transform: skew(80deg);
+  -ms-transform: skew(80deg);
+  -o-transform: skew(80deg);
+  transform: skew(80deg);
+}
+
+.StripeElement {
+  background-color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  box-shadow: 0 1px 3px 0 #f1e8e6;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+  border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}
+
+.svg svg {
+  position: absolute;
+  margin-top: 4px;
+  width: 30px;
+}

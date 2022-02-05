@@ -31,7 +31,7 @@ export const Login = (props) => {
   };
 
   if (data) {
-    localStorage.setItem("jwt", data.login.token);
+    localStorage.setItem("token", data.login.token);
     navigate("/");
   }
 

@@ -21,7 +21,7 @@ const typeDefs = gql`
     addReview(id: ID!, input: AddReviewInput): Review
     deleteReview(id: ID): Boolean
     updateReview(id: ID!, input: AddReviewInput): Review
-    addToBasket(id: ID, input: AddItemInput): User
+    addToBasket(input: AddItemInput): User
   }
 
   type User {
@@ -104,25 +104,45 @@ const typeDefs = gql`
     comment: String!
     rating: Int!
   }
-  type Items {
-    id: ID!
+  type Shipment {
     address: String!
     state: String!
     city: String!
     amount: String!
     pin: String!
-    product: Product!
-    quantity: Int!
   }
-  input AddItemInput {
+
+  type Items {
+    id: ID
+    price: String
+    paymentId: String
+    shipment: Shipment
+    product: Product
+  }
+
+  input ShipmentInput {
     address: String!
     state: String!
     city: String!
-    amount: String!
-    pin: Int!
-    quantity: Int!
-    payToken: String
-    product: String
+    pin: String!
+  }
+
+  input cartItemsInput {
+    id: ID
+    image: String
+    itemTotal: Int
+    name: String
+    price: String
+    quantity: Int
+    title: String
+  }
+
+  input AddItemInput {
+    price: Int
+    paymentId: String!
+    shipment: ShipmentInput!
+    product: [cartItemsInput!]!
+    quantity: Int
   }
 `;
 

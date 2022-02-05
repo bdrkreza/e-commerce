@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useCart } from "react-use-cart";
 import "./Navbar.css";
@@ -8,14 +8,28 @@ import "./Navbar.css";
  **/
 
 export const Navbar = (props) => {
-
   const { items } = useCart();
   const navigate = useNavigate();
-  const jwt = localStorage.getItem("jwt");
+  const jwt = localStorage.getItem("token");
   const logout = () => {
-    localStorage.removeItem("jwt");
+    localStorage.removeItem("token");
     navigate("/login");
   };
+
+
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    window.onscroll = function() {
+      if (window.scrollY > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+  }, []);
+
+
   return (
     <>
       <ul id="dropdown1" class="dropdown-content">
@@ -30,16 +44,20 @@ export const Navbar = (props) => {
           <a href="#!">three</a>
         </li>
       </ul>
-      <nav >
-        <div className="nav-wrapper container sticky">
+      <nav className={scrolled ? "nav" : "active"}>
+        <div className="nav-wrapper container" >
           <a href="#!" className="brand-logo">
             <i className="material-icons">cloud</i>Logo
           </a>
 
           <ul className="right hide-on-med-and-down">
-       
             <li>
-              <NavLink to="/about">
+              <NavLink to="/" className="badge">
+                <h5>home</h5>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/about" className="badge">
                 <h5>about</h5>
               </NavLink>
             </li>
@@ -75,7 +93,11 @@ export const Navbar = (props) => {
               </>
             ) : (
               <li>
-                <NavLink to="/login">login</NavLink>
+             <li>
+              <NavLink to="/login" className="badge">
+                <h5>login</h5>
+              </NavLink>
+            </li>
               </li>
             )}
             <li>
@@ -87,13 +109,6 @@ export const Navbar = (props) => {
               <a href="sass.html">
                 <i className="material-icons">search</i>
               </a>
-            </li>
-          </ul>
-          <ul class="right hide-on-med-and-down">
-            <li>
-              <NavLink to="/">
-                <h5>home</h5>
-              </NavLink>
             </li>
           </ul>
         </div>

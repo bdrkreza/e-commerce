@@ -14,7 +14,11 @@
 .card_item {
   display: flex;
   position: relative;
-  margin: 10px 0;
+  margin: 10px;
+}
+
+.product_info hr {
+  border-top: 1px dotted #f00;
 }
 .close-btn {
   position: absolute;
@@ -42,6 +46,7 @@
 .product_info p {
   color: #a1a1a1;
   font-size: 14px;
+  max-width: 250px;
 }
 .product_rate_info {
   display: flex;
