@@ -9,6 +9,8 @@ import "./orderTable.css";
 
 export const OrderTable = (props) => {
   const { loading, error, data } = useQuery(GET_USER_ORDER);
+console.log(data);
+  console.log(data?.getBasket[0].product);
   if (loading) {
     return (
       <h3 className=" card-panel cyan-text center-align">
@@ -30,19 +32,18 @@ export const OrderTable = (props) => {
             <div class="col col-3">Amount</div>
             <div class="col col-4">Status</div>
           </li>
-          {data?.getBasket.map((order) => {
-            console.log(order);
-            const { amount } = order;
+          {data?.getBasket.map((item) => {
+      
             return (
               <li class="table-row">
                 <div class="col col-1" data-label="Job Id">
-                  <img src={order?.product.image} alt="" />
+                  <img src={item?.product.image} alt="" />
                 </div>
                 <div class="col col-2" data-label="Customer Name">
-                  <span>{order.product.title}</span>
+                  <span>{item.product.title}</span>
                 </div>
                 <div class="col col-3" data-label="Amount">
-                  ${amount}
+                  ${item.price}
                 </div>
                 <div class="col col-4" data-label="Payment Status">
                   Pending

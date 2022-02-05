@@ -84,16 +84,16 @@ export const GET_PRODUCT_SEARCH_NAME = gql`
 export const GET_USER_ORDER = gql`
   query GetBasket {
     getBasket {
-      state
-      id
-      amount
-      city
+      price
       quantity
+      id
       product {
-        title
-        description
+        id
+        itemTotal
         name
         image
+        quantity
+        title
       }
     }
   }

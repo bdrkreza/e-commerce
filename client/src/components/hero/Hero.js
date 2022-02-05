@@ -35,7 +35,7 @@ export const Hero = ({ data }) => {
               name,
               title,
               price,
-              img: image,
+              image,
             });
           };
           return (

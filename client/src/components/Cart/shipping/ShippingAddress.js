@@ -1,6 +1,7 @@
 import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { useCart } from "react-use-cart";
 import { USER_ORDER_PRODUCT } from "../../../gqlOperation/mutation";
 import { PaymentProcess } from "../payment/PaymentProcess";
@@ -10,10 +11,10 @@ import { PaymentProcess } from "../payment/PaymentProcess";
  **/
 
 export const Shipping = (props) => {
-  const [basket, { loading, error, data }] = useMutation(USER_ORDER_PRODUCT);
+  const [addToBasket] = useMutation(USER_ORDER_PRODUCT);
   const { cartTotal, items, totalItems, emptyCart } = useCart();
   const [shippingData, setShippingData] = useState(null);
-console.log(items);
+  let navigate = useNavigate();
 
   const {
     register,
@@ -30,24 +31,21 @@ console.log(items);
   // });
 
   const handlePaymentSuccess = (paymentId) => {
-    const order = {
-      shipment: shippingData,
-      product: items,
-      price: cartTotal,
-      quantity: totalItems,
-      paymentId,
-    };
-    basket({
-      variables:{
+    addToBasket({
+      variables: {
         input: {
           price: cartTotal,
           paymentId: paymentId,
           shipment: shippingData,
           quantity: totalItems,
-          product: items
-        }
-      }
+          product: items,
+        },
+      },
     });
+    setTimeout(() => {
+      emptyCart();
+      navigate("/profile");
+    }, 2000);
   };
   return (
     <div className="container row">
@@ -119,7 +117,8 @@ console.log(items);
         class="col-md-6"
         style={{ display: shippingData ? "block" : "none" }}
       >
-        <PaymentProcess handlePaymentSuccess={handlePaymentSuccess} shippingData={shippingData} />
+        <PaymentProcess
+          handlePaymentSuccess={handlePaymentSuccess}/>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const Category = require("../models/category.model");
 const Product = require("../models/product.model");
 const User = require("../models/user.model");
+const createJWTToken = require("../utils/auth");
 
 mutation = {
   /**
@@ -47,9 +48,15 @@ mutation = {
     if (!isEqual) {
       throw new Error("Password is incorrect!");
     }
-    const token = jwt.sign({ user }, process.env.JWT_SECRET, {
-      expiresIn: "1d",
-    });
+
+    const payload = {
+      id: user._id,
+      username: user.username,
+      email: user.email,
+      role: user.role
+    };
+
+    const token = createJWTToken(payload);
     return { userId: user.id, token: token, tokenExpiration: 1 };
   },
   /**
@@ -185,7 +192,7 @@ mutation = {
       if (product) {
         const review = {
           ...input,
-          user: user._id,
+          user: user.id,
         };
         product.review.push(review);
         await product.save();
@@ -197,12 +204,17 @@ mutation = {
       throw new AuthenticationError(error);
     }
   },
-  addToBasket: async (_, {input}, { user }) => {
-    try {
-      console.log(input);
-      if (!user) return null;
 
-      const orderUser = await User.findById({ _id: user._id });
+  /**
+   * add a order user
+   * @route POST
+   * @access private
+   */
+  addToBasket: async (_, { input }, { user }) => {
+    try {
+      if (!user) return null;
+      const orderUser = await User.findById({ _id: user.id });
+
       if (orderUser) {
         const OrderItem = {
           ...input,

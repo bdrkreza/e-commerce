@@ -8,13 +8,13 @@ const Query = {
   getUser: async (_, {}, ctx) => {
     if (!ctx.user) return null;
     const user = await User.findById({ _id: ctx.user._id })
-      .populate({
-        path: "basket", // populate basket
-        populate: {
-          path: "product", // in basket, populate products
-        },
-      })
-      .exec();
+    .populate({
+      path: "basket", // populate basket
+      populate: {
+        path: "product", // in basket, populate products
+      },
+    })
+    .exec();
     return user;
   },
   products: async () => await Product.find({}),
@@ -23,7 +23,7 @@ const Query = {
   category: async (_, { id }) => await Category.findById({ _id: id }),
   getBasket: async (_, {}, { user }) => {
     if (!user) return null;
-    const userOrder = await User.findById(user._id, { basket: 1 })
+    const userBasket = await User.findById(user.id, { basket: 1 })
       .populate({
         path: "basket", // populate basket
         populate: {
@@ -31,7 +31,7 @@ const Query = {
         },
       })
       .exec();
-    return userOrder.basket;
+    return userBasket.basket;
   },
 };
 

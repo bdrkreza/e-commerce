@@ -46,6 +46,9 @@ const typeDefs = gql`
     tokenExpiration: Int!
   }
 
+
+ 
+
   type Product {
     _id: String!
     name: String!
@@ -108,16 +111,26 @@ const typeDefs = gql`
     address: String!
     state: String!
     city: String!
-    amount: String!
     pin: String!
   }
 
+type Item{
+  id: ID
+    image: String
+    itemTotal: Int
+    name: String
+    price: String
+    quantity: Int
+    title: String
+}
+
   type Items {
     id: ID
-    price: String
-    paymentId: String
-    shipment: Shipment
-    product: Product
+    quantity:String!
+    price: String!
+    paymentId: String!
+    shipment: Shipment!
+    product: [Item!]!
   }
 
   input ShipmentInput {

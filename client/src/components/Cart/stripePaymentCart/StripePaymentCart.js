@@ -6,8 +6,9 @@ import {
   useStripe
 } from "@stripe/react-stripe-js";
 import React, { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./paymentCart.css";
-
 const cardStyle = {
   style: {
     base: {
@@ -37,6 +38,16 @@ export const StripePaymentCart = ({ handlePaymentSuccess }) => {
   const [Success, setSuccess] = useState(null);
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState(null);
+  const notify = () =>
+    toast("please waiting for a moment!", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -71,8 +82,24 @@ export const StripePaymentCart = ({ handlePaymentSuccess }) => {
   };
   return (
     <div>
-      {Success ? "success" : null}
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+
       <div className="center-align card chip cyan body">
+        {Success ? (
+          <h2 className="card-panel #ffcdd2 #69f0ae green accent-2  black-text">
+            Your Payment Success <br /> Thanks for order
+          </h2>
+        ) : null}
         <h3 className="">Payment card</h3>
         <div className="cart_container">
           <div class="shine"></div>
@@ -115,12 +142,15 @@ export const StripePaymentCart = ({ handlePaymentSuccess }) => {
                 </div>
               </div>
             </div>
-            {error ? <div className="card #ffcdd2 red lighten-4 red-text">{error}</div> : null}
+            {error ? (
+              <div className="card #ffcdd2 red lighten-4 red-text">{error}</div>
+            ) : null}
             <div>
               <button
                 disabled={processing}
                 type="submit"
                 class="btn large cart_btn"
+                onClick={notify}
               >
                 {processing && (
                   <div className="">
